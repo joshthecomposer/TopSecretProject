@@ -1,1 +1,0 @@
-//This folder is where the frontent goes. It send and recieve requests to the backend API and display things accordingly.
