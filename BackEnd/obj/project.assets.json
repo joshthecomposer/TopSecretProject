@@ -5,7 +5,7 @@
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Humanizer.dll": {
+          "lib/netstandard2.0/_._": {
             "related": ".xml"
           }
         },
@@ -85,7 +85,7 @@
           "Microsoft.EntityFrameworkCore.Relational": "6.0.3"
         },
         "compile": {
-          "lib/net6.0/Microsoft.EntityFrameworkCore.Design.dll": {
+          "lib/net6.0/_._": {
             "related": ".xml"
           }
         },
@@ -1235,11 +1235,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/TopSecretProject.csproj",
+      "projectUniqueName": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/BackEnd/TopSecretProject.csproj",
       "projectName": "TopSecretProject",
-      "projectPath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/TopSecretProject.csproj",
+      "projectPath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/BackEnd/TopSecretProject.csproj",
       "packagesPath": "/Users/joshuawise/.nuget/packages/",
-      "outputPath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/obj/",
+      "outputPath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/BackEnd/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/joshuawise/.nuget/NuGet/NuGet.Config"

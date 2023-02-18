@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KCYE5CD6CUJwYIYSAuzhDhBKztJMNx5pZ7nQZMQjpFKigMF8AP8lP8+D+XwozM2pHYv9q+0v7L338n9+FMe13A==",
+  "dgSpecHash": "KXKoJYrlJtY2IRKzWMBddLCocxHsWfD+Vw16esH9UyW2NEEgNVaMoJfsXZW68tEpKoru1FMs+fiCgdjiEiHRAA==",
   "success": true,
-  "projectFilePath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/TopSecretProject.csproj",
+  "projectFilePath": "/Users/joshuawise/Documents/coding/coding_dojo/dotnet_Projects/ASPWEBAPI/TopSecretProject/BackEnd/TopSecretProject.csproj",
   "expectedPackageFiles": [
     "/Users/joshuawise/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/joshuawise/.nuget/packages/microsoft.aspnetcore.openapi/7.0.2/microsoft.aspnetcore.openapi.7.0.2.nupkg.sha512",
