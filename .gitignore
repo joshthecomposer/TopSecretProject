@@ -189,6 +189,9 @@ _pkginfo.txt
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
+
+/BackEnd/*.[Cc]ache
+
 *.[Cc]ache
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
