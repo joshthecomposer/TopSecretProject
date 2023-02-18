@@ -1,0 +1,1 @@
+To test server function - open localhost:xxxx/user
