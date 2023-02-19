@@ -21,7 +21,7 @@ export default function RegisterForm() {
         // /api/admin/create
         event.preventDefault();
 
-        fetch("localhost:5014/api/admin/create", {
+        fetch("http://localhost:5014/api/admin/create", {
             method: "POST",
             body: JSON.stringify({
                 firstName,
