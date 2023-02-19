@@ -25,7 +25,7 @@ public class MainController : ControllerBase
         return user;
     }
 
-    [HttpPost("/api/employee/create")]
+    [HttpPost("/api/admin/create")]
     public async Task<ActionResult<User>> CreateEmployee([FromBody]User emp)
     {
         if (ModelState.IsValid)
