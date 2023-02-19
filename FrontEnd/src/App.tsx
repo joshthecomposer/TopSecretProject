@@ -1,11 +1,20 @@
-import { useEffect, useState } from "react";
-import RegisterForm from "./components/RegisterForm";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminRegister from "./pages/AdminRegister";
+import Landing from "./pages/Landing";
 
 function App() {
     return (
-        <div className="h-screen flex items-center justify-center">
-            <RegisterForm />
-        </div>
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route
+                        path="/admin/register/:slug"
+                        element={<AdminRegister />}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 }
 
