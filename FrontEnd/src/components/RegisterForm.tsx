@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import ButtonBlue from "./Buttons/ButtonBlue";
 import TextInput from "./Inputs/TextInput";
+import axios from "axios";
 
 interface User {
     firstName: string;
@@ -21,16 +22,14 @@ export default function RegisterForm() {
         // /api/admin/create
         event.preventDefault();
 
-        fetch("http://localhost:5014/api/admin/create", {
-            method: "POST",
-            body: JSON.stringify({
+        axios
+            .post("http://localhost:5014/api/admin/create", {
                 firstName,
                 lastName,
                 email,
                 password,
                 confirmPassword,
-            }),
-        })
+            })
             .then((response) => console.log(response))
             .catch((error) => console.error(error));
     }
