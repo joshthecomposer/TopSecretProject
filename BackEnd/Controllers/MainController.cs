@@ -34,6 +34,7 @@ public class MainController : ControllerBase
     [HttpPost("/api/admin/create")]
     public async Task<ActionResult<Admin>> PostAdmin([FromBody] Admin admin)
     {
+        Console.WriteLine(admin);
         if (ModelState.IsValid)
         {
             _context.Admins.Add(admin);
