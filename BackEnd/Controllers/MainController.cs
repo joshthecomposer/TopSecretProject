@@ -20,8 +20,9 @@ public class MainController : ControllerBase
         return testUser;
     }
 
-    [HttpGet("/api/admins/{AdminId}")]
-    public async Task<ActionResult<Admin>> GetOneAdmin(int id)
+    [HttpGet("{id}")]
+    [ActionName(nameof(GetOneAdminAsync))]
+    public async Task<ActionResult<Admin>> GetOneAdminAsync(int id)
     {
         var admin = await _context.Admins.FindAsync(id);
         if (admin == null)
@@ -32,15 +33,14 @@ public class MainController : ControllerBase
     }
 
     [HttpPost("/api/admin/create")]
-    public async Task<ActionResult<Admin>> PostAdmin([FromBody] Admin admin)
+    public async Task<ActionResult<Admin>> PostAdmin([FromBody]Admin admin)
     {
-        Console.WriteLine(admin);
         if (ModelState.IsValid)
         {
             _context.Admins.Add(admin);
             await _context.SaveChangesAsync();
             return CreatedAtAction(
-                nameof(GetOneAdmin),
+                nameof(GetOneAdminAsync),
                 new { id = admin.AdminId },
                 admin);
         }
@@ -48,7 +48,6 @@ public class MainController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-
     }
 }
 

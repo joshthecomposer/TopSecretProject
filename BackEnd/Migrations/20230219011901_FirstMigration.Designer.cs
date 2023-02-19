@@ -10,7 +10,7 @@ using Server.Models;
 namespace TopSecretProject.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230219003530_FirstMigration")]
+    [Migration("20230219011901_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
