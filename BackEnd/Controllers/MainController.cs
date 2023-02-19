@@ -14,8 +14,8 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [ActionName(nameof(GetOneAdminAsync))]
-    public async Task<ActionResult<User>> GetOneAdminAsync(int id)
+    [ActionName(nameof(GetOneEmployeeAsync))]
+    public async Task<ActionResult<User>> GetOneEmployeeAsync(int id)
     {
         var user = await _context.Users.FindAsync(id);
         if (user == null)
@@ -26,14 +26,14 @@ public class MainController : ControllerBase
     }
 
     [HttpPost("/api/employee/create")]
-    public async Task<ActionResult<User>> PostEmployee([FromBody]User emp)
+    public async Task<ActionResult<User>> CreateEmployee([FromBody]User emp)
     {
         if (ModelState.IsValid)
         {
             _context.Users.Add(emp);
             await _context.SaveChangesAsync();
             return CreatedAtAction(
-                nameof(GetOneAdminAsync),
+                nameof(GetOneEmployeeAsync),
                 new { id = emp.EmployeeId },
                 emp);
         }
