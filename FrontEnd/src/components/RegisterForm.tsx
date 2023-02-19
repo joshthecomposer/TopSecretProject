@@ -27,18 +27,14 @@ export default function RegisterForm({ isAdmin }: IProps) {
         event.preventDefault();
 
         axios
-            .post(
-                `http://localhost:5014/api/${
-                    isAdmin ? "admin" : "employee"
-                }/create`,
-                {
-                    firstName,
-                    lastName,
-                    email,
-                    password,
-                    confirmPassword,
-                }
-            )
+            .post("http://localhost:5014/api/employee/create", {
+                firstName,
+                lastName,
+                email,
+                password,
+                confirmPassword,
+                isAdmin,
+            })
             .then((response) => console.log(response))
             .catch((error) => console.error(error));
     }
