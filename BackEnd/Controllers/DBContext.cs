@@ -4,6 +4,6 @@ namespace Server.Models
     public class DBContext : DbContext
     {
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
-        public DbSet<Admin> Admins { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
     }
  }

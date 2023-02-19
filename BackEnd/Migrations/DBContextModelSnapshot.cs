@@ -18,9 +18,9 @@ namespace TopSecretProject.Migrations
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Server.Models.Admin", b =>
+            modelBuilder.Entity("Server.Models.User", b =>
                 {
-                    b.Property<int>("AdminId")
+                    b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -32,6 +32,9 @@ namespace TopSecretProject.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -40,9 +43,9 @@ namespace TopSecretProject.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("AdminId");
+                    b.HasKey("EmployeeId");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
