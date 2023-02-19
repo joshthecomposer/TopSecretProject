@@ -6,7 +6,7 @@ export default function () {
 
     return (
         <main className="flex items-center justify-center h-screen">
-            <RegisterForm isAdmin={true} />
+            <RegisterForm isAdmin={false} />
         </main>
     );
 }

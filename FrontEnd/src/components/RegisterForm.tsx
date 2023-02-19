@@ -11,7 +11,11 @@ interface User {
     confirmPassword: string;
 }
 
-export default function RegisterForm() {
+interface IProps {
+    isAdmin: boolean;
+}
+
+export default function RegisterForm({ isAdmin }: IProps) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -23,13 +27,18 @@ export default function RegisterForm() {
         event.preventDefault();
 
         axios
-            .post("http://localhost:5014/api/admin/create", {
-                firstName,
-                lastName,
-                email,
-                password,
-                confirmPassword,
-            })
+            .post(
+                `http://localhost:5014/api/${
+                    isAdmin ? "admin" : "employee"
+                }/create`,
+                {
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    confirmPassword,
+                }
+            )
             .then((response) => console.log(response))
             .catch((error) => console.error(error));
     }
@@ -37,7 +46,7 @@ export default function RegisterForm() {
     return (
         <main className="p-5 shadow-lg bg-neutral-200 flex flex-col gap-4">
             <h1 className="text-center text-4xl font-bold">
-                Admin Registration
+                {isAdmin ? "Admin" : "Employee"} Registration
             </h1>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <TextInput

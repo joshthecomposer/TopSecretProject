@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminRegister from "./pages/AdminRegister";
 import Landing from "./pages/Landing";
+import EmployeeRegister from "./pages/EmployeeRegister";
 
 function App() {
     return (
@@ -11,6 +12,10 @@ function App() {
                     <Route
                         path="/admin/register/:slug"
                         element={<AdminRegister />}
+                    />
+                    <Route
+                        path="/employee/register/:slug"
+                        element={<EmployeeRegister />}
                     />
                 </Routes>
             </BrowserRouter>
