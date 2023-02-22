@@ -24,6 +24,8 @@ public class User
     public string Password { get; set; }
     [NotMapped]
     public string ConfirmPassword { get; set; }
+
+    public List<TimePunch> Punches { get; set; } = new List<TimePunch>();
 }
 
 public class NotEmailExistsAttribute : ValidationAttribute
