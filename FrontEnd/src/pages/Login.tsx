@@ -38,8 +38,10 @@ export default function () {
             .catch((error) => {
                 console.log(error);
                 const errorsObject = error.response.data.errors;
+
+                type ErrorFromApi = [content: string];
                 const errorsTemp = [];
-                for (const err of Object.values(errorsObject)) {
+                for (const err of Object.values(errorsObject) as ErrorFromApi) {
                     errorsTemp.push({ title: "Error", content: err[0] });
                 }
 
