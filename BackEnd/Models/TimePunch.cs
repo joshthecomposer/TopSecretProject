@@ -15,6 +15,5 @@ public class TimePunch
     public bool PunchType { get; set; } //True is punching and False is punching out
     public DateTime PunchTime { get; set; } = DateTime.Now;
 
-
     public User? Employee { get; set; }
 }

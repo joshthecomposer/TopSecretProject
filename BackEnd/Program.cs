@@ -1,10 +1,14 @@
 // Added using statements
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 // Added connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddControllers();
+// builder.Services.AddControllersWithViews().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 // Add cors
 builder.Services.AddCors(options =>
 {
