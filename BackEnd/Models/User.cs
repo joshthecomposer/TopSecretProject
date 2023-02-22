@@ -16,6 +16,7 @@ public class User
     public string LastName { get; set; }
     [Required]
     [EmailAddress]
+    [NotEmailExists]
     public string Email { get; set; }
     [Required]
     public bool IsAdmin { get; set; }
@@ -23,4 +24,22 @@ public class User
     public string Password { get; set; }
     [NotMapped]
     public string ConfirmPassword { get; set; }
+}
+
+public class NotEmailExistsAttribute : ValidationAttribute
+{
+protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+    {   
+        if (value == null)
+        {
+            return new ValidationResult("Email is required.");
+        }
+        DBContext _context = (DBContext)validationContext.GetService(typeof(DBContext))!;
+        if (_context.Users.Any(e=>e.Email == value.ToString()))
+        {
+            return new ValidationResult("This email already exists");
+        } else {
+            return ValidationResult.Success!;
+        }
+    }
 }
