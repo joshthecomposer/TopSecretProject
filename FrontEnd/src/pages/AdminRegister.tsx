@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/Registration/RegisterForm";
 
 export default function () {
     const { slug } = useParams();

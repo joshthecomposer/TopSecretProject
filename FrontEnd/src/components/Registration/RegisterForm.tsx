@@ -1,7 +1,9 @@
 import { FormEvent, useState } from "react";
-import ButtonBlue from "./Buttons/ButtonBlue";
-import TextInput from "./Inputs/TextInput";
+import ButtonBlue from "../Buttons/ButtonBlue";
+import TextInput from "../Inputs/TextInput";
 import axios from "axios";
+import cookies from "../../lib/stores";
+import { useNavigate } from "react-router-dom";
 
 interface User {
     firstName: string;
@@ -22,6 +24,8 @@ export default function RegisterForm({ isAdmin }: IProps) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const navigate = useNavigate();
+
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         // /api/admin/create
         event.preventDefault();
@@ -35,7 +39,20 @@ export default function RegisterForm({ isAdmin }: IProps) {
                 confirmPassword,
                 isAdmin,
             })
-            .then((response) => console.log(response))
+            .then((response) => {
+                const { employeeId, email, isAdmin } = response.data;
+
+                cookies.cookies.set(
+                    "userCookie",
+                    { employeeId, email, isAdmin },
+                    {
+                        path: "/",
+                        maxAge: 86400,
+                    }
+                );
+
+                navigate("/dashboard");
+            })
             .catch((error) => console.error(error));
     }
 
