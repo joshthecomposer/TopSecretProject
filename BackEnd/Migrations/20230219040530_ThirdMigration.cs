@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TopSecretProject.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class ThirdMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,10 +13,10 @@ namespace TopSecretProject.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Admins",
+                name: "Users",
                 columns: table => new
                 {
-                    AdminId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -24,12 +24,13 @@ namespace TopSecretProject.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsAdmin = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admins", x => x.AdminId);
+                    table.PrimaryKey("PK_Users", x => x.EmployeeId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
@@ -37,7 +38,7 @@ namespace TopSecretProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admins");
+                name: "Users");
         }
     }
 }

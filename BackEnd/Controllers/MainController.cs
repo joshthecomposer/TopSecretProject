@@ -12,37 +12,30 @@ public class MainController : ControllerBase
     {
         _context = context;
     }
-    
-    [HttpGet("/user")]
-    public User TestGet()
-    {
-        User testUser = new User {UserId = 1, UserName = "Hello"};
-        return testUser;
-    }
 
     [HttpGet("{id}")]
-    [ActionName(nameof(GetOneAdminAsync))]
-    public async Task<ActionResult<Admin>> GetOneAdminAsync(int id)
+    [ActionName(nameof(GetOneEmployeeAsync))]
+    public async Task<ActionResult<User>> GetOneEmployeeAsync(int id)
     {
-        var admin = await _context.Admins.FindAsync(id);
-        if (admin == null)
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
         {
             return NotFound();
         }
-        return admin;
+        return user;
     }
 
     [HttpPost("/api/admin/create")]
-    public async Task<ActionResult<Admin>> PostAdmin([FromBody]Admin admin)
+    public async Task<ActionResult<User>> CreateEmployee([FromBody]User emp)
     {
         if (ModelState.IsValid)
         {
-            _context.Admins.Add(admin);
+            _context.Users.Add(emp);
             await _context.SaveChangesAsync();
             return CreatedAtAction(
-                nameof(GetOneAdminAsync),
-                new { id = admin.AdminId },
-                admin);
+                nameof(GetOneEmployeeAsync),
+                new { id = emp.EmployeeId },
+                emp);
         }
         else
         {
