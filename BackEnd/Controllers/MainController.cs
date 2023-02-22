@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers;
 
-[Route("api/ssp")]
+[Route("api")]
 [ApiController]
 public class MainController : ControllerBase
 {
@@ -25,17 +27,49 @@ public class MainController : ControllerBase
         return user;
     }
 
-    [HttpPost("/api/employee/create")]
-    public async Task<ActionResult<User>> CreateEmployee([FromBody]User emp)
+    [HttpPost(template:"employee/create")]
+    public async Task<ActionResult<User>> CreateEmployee([FromBody]User newUser)
     {
         if (ModelState.IsValid)
         {
-            _context.Users.Add(emp);
+            PasswordHasher<User> hasher = new PasswordHasher<User>();
+            newUser.Password = hasher.HashPassword(newUser, newUser.Password);
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
+            newUser.ConfirmPassword = null;
+            newUser.Password = null;
             return CreatedAtAction(
                 nameof(GetOneEmployeeAsync),
-                new { id = emp.EmployeeId },
-                emp);
+                new { id = newUser.EmployeeId },
+                newUser);
+        }
+        else
+        {
+            return BadRequest(ModelState);
+        }
+    }
+
+    [HttpPost(template:"employee/login")]
+    public async Task<ActionResult<User>> Login([FromBody]LoginUser loginUser)
+    {
+        if (ModelState.IsValid)
+        {
+            User? check = await _context.Users.SingleOrDefaultAsync(c => c.Email == loginUser.Email);
+            if (check == null)
+            {
+                ModelState.AddModelError("Email", "Invalid Email/Password.");
+                return BadRequest(ModelState);
+            }
+            PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
+            var result = hasher.VerifyHashedPassword(loginUser, check.Password, loginUser.Password);
+            if (result == 0)
+            {
+                ModelState.AddModelError("Password", "Invalid Email/Password.");
+                return BadRequest(ModelState);
+            }
+            check.Password = null!;
+            check.ConfirmPassword = null!;
+            return AcceptedAtAction(nameof(GetOneEmployeeAsync), new {id = check.EmployeeId}, check);
         }
         else
         {
