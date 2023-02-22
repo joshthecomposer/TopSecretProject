@@ -1,20 +1,54 @@
+import axios from "axios";
 import ButtonBlue from "../components/Buttons/ButtonBlue";
 import TextInput from "../components/Inputs/TextInput";
 import ErrorToast from "../components/Toasts/ErrorToast";
 import { IToastNotification } from "../components/Toasts/ErrorToast";
 import { useState, FormEvent } from "react";
+import cookies from "../lib/stores";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<IToastNotification[]>([]);
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        axios
+            .post("http://localhost:5014/api/employee/login", {
+                email,
+                password,
+            })
+            .then((response) => {
+                console.log(response);
+                const { employeeId, email, isAdmin } = response.data;
+
+                cookies.cookies.set(
+                    "userCookie",
+                    { employeeId, email, isAdmin },
+                    {
+                        path: "/",
+                        maxAge: 86400,
+                    }
+                );
+                navigate("/dashboard");
+            })
+            .catch((error) => {
+                console.log(error);
+                const errorsObject = error.response.data.errors;
+                const errorsTemp = [];
+                for (const err of Object.values(errorsObject)) {
+                    errorsTemp.push({ title: "Error", content: err[0] });
+                }
+
+                setErrors(errorsTemp);
+            });
     }
 
-    function closeErrorToast() {
-        setErrors([]);
+    function closeErrorToast(content: string) {
+        setErrors([...errors].filter((error) => error.content !== content));
     }
 
     return (
@@ -23,9 +57,10 @@ export default function () {
                 {errors &&
                     errors.map((toast, toastIndex) => (
                         <ErrorToast
+                            key={toastIndex}
                             title="Error"
                             content={toast.content}
-                            closeFunction={closeErrorToast}
+                            closeFunction={() => closeErrorToast(toast.content)}
                         />
                     ))}
             </div>
