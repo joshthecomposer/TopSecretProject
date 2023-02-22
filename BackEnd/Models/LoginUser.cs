@@ -51,16 +51,19 @@ public class IsPasswordCorrectAttribute : ValidationAttribute
         Type type = instance.GetType();
         var emailValue = type.GetProperty(_dependentProperty)!.GetValue(instance, null);
         User? check = _context.Users.SingleOrDefault(c => c.Email ==(string)emailValue!);
+
         if (check == null)
         {
             return new ValidationResult("Email/Password is Invalid");
         }
+
         PasswordHasher<User> hasher = new PasswordHasher<User>();
         var result = hasher.VerifyHashedPassword(check, check.Password, pw);
         if (result == 0)
         {
             return new ValidationResult("Email/Password is Invalid");
         }
+
         return ValidationResult.Success!;
     }
 }
