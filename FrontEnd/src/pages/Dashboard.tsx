@@ -1,6 +1,6 @@
 import cookies from "../lib/stores";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export interface IUserToken {
     employeeId: number;
@@ -14,15 +14,8 @@ export default function () {
         cookies.cookies.get("userCookie")
     );
 
-    useEffect(() => {
-        if (!userToken) {
-            navigate("/");
-        }
-        return () => {};
-    }, []);
-
     if (!userToken) {
-        return;
+        return <Navigate to="/" />;
     }
 
     return (
