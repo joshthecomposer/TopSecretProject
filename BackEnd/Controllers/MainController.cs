@@ -36,8 +36,8 @@ public class MainController : ControllerBase
             newUser.Password = hasher.HashPassword(newUser, newUser.Password);
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            newUser.ConfirmPassword = null;
-            newUser.Password = null;
+            newUser.ConfirmPassword = null!;
+            newUser.Password = null!;
             return CreatedAtAction(
                 nameof(GetOneEmployeeAsync),
                 new { id = newUser.EmployeeId },
@@ -55,19 +55,19 @@ public class MainController : ControllerBase
         if (ModelState.IsValid)
         {
             User? check = await _context.Users.SingleOrDefaultAsync(c => c.Email == loginUser.Email);
-            if (check == null)
-            {
-                ModelState.AddModelError("Email", "Invalid Email/Password.");
-                return BadRequest(ModelState);
-            }
-            PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
-            var result = hasher.VerifyHashedPassword(loginUser, check.Password, loginUser.Password);
-            if (result == 0)
-            {
-                ModelState.AddModelError("Password", "Invalid Email/Password.");
-                return BadRequest(ModelState);
-            }
-            check.Password = null!;
+            // if (check == null)
+            // {
+            //     ModelState.AddModelError("Email", "Invalid Email/Password.");
+            //     return BadRequest(ModelState);
+            // }
+            // PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
+            // var result = hasher.VerifyHashedPassword(loginUser, check.Password, loginUser.Password);
+            // if (result == 0)
+            // {
+            //     ModelState.AddModelError("Password", "Invalid Email/Password.");
+            //     return BadRequest(ModelState);
+            // }
+            check!.Password = null!;
             check.ConfirmPassword = null!;
             return AcceptedAtAction(nameof(GetOneEmployeeAsync), new {id = check.EmployeeId}, check);
         }
