@@ -49,7 +49,7 @@ public class TimeClockController : ControllerBase
         }
     }
 
-    [HttpGet(template:"punch/latest/{id}")]
+    [HttpGet(template:"punch/{id}/latest")]
     public async Task<ActionResult<TimePunch>> GetLatest(int id)
     {
         var punch = await _context.TimePunches.Where(p=>p.EmployeeId == id).OrderBy(t=>t.PunchTime).LastAsync();
@@ -57,8 +57,8 @@ public class TimeClockController : ControllerBase
         return punch!;
     }
 
-    [HttpGet(template:"punch/all/{id}")]
-    public async Task<ActionResult<List<TimePunch>>> GetAll(int id)
+    [HttpGet(template:"punch/{id}/all")]
+    public async Task<ActionResult<List<TimePunch>>> GetOnePunches(int id)
     {
         var user = await _context.Users.Include(u => u.Punches).FirstOrDefaultAsync(u => u.EmployeeId == id);
         List<TimePunch> punches = user!.Punches;
@@ -67,5 +67,19 @@ public class TimeClockController : ControllerBase
             p.Employee = null;
         }
         return punches;
+    }
+
+    [HttpGet(template:"punch/all")]
+    public async Task<ActionResult<List<User>>> GetAllUsersWithPunches()
+    {
+        List<User> users = await _context.Users.Include(u => u.Punches).ToListAsync();
+        foreach(User u in users)
+        {
+            foreach(TimePunch p in u.Punches)
+            {
+                p.Employee = null;
+            }
+        }
+        return users;
     }
 }
