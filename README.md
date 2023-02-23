@@ -1,4 +1,4 @@
-Make all pushes ready to be tested with rest of app to dev-offical
+Make all pushes ready to be tested with rest of app to dev-official
 
 ## To test server and get API documentation, open localhost:[server port]
 
