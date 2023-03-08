@@ -5,8 +5,10 @@ import axios from "axios";
 export interface IPunch {
     employee: IUser;
     employeeId: number;
-    punchTime: string;
-    punchType: boolean;
+    punchIn: string;
+    punchOut: string;
+    createdAt: string;
+    updatedAt: string;
     timePunchId: number;
 }
 
@@ -17,18 +19,46 @@ export default function TimeClock({
 }) {
     const [userPunches, setUserPunches] = useState<IPunch[]>();
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         if (!userPunches) return;
+        if (!userInfo) return;
 
         event.preventDefault();
-        // TODO: check the latest punch to see if it already has an out punch. If it does, create a new punch, else, update the most recent punch's out value.
+
         if (userPunches.length === 0) {
-            // TODO: Create a new punch and return.
+            axios
+                .post("http://localhost:5014/api/timeclock/punch", {
+                    employeeId: userInfo.employeeId,
+                    punchIn: new Date(),
+                })
+                .then((response) => console.log(response))
+                .catch((error) => console.error(error));
+            return;
         }
 
-        // if latest punch is only an in: update it and return.
+        const { data: latest }: { data: IPunch } = await axios.get(
+            `http://localhost:5014/api/timeclock/punch/${userInfo.employeeId}/latest`
+        );
 
-        // lastly, if latest punch has an in and out, create a new punch and return.
+        if (!latest.punchOut) {
+            axios
+                .put(
+                    `http://localhost:5014/api/timeclock/punch/${latest.timePunchId}`,
+                    { punchOut: new Date() }
+                )
+                .then((response) => console.log(response))
+                .catch((error) => console.error(error));
+            return;
+        }
+
+        axios
+            .post("http://localhost:5014/api/timeclock/punch", {
+                employeeId: userInfo.employeeId,
+                punchIn: new Date(),
+            })
+            .then((response) => console.log(response))
+            .catch((error) => console.error(error));
+        return;
     }
 
     useEffect(() => {
@@ -61,15 +91,13 @@ export default function TimeClock({
                         </thead>
                         <tbody className="flex flex-col gap-4 mb-4">
                             {userPunches?.map((punch: IPunch) => {
-                                const date = new Date(punch.punchTime);
-
                                 return (
                                     <tr
                                         key={punch.timePunchId}
                                         className="flex gap-4"
                                     >
                                         <td className="p-2 bg-[#26263a] flex-1">
-                                            {date.toLocaleDateString()}
+                                            date
                                         </td>
                                         <td className="p-2 bg-[#26263a] flex-1">
                                             time
