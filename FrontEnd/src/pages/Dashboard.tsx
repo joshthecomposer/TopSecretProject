@@ -2,7 +2,7 @@ import cookies from "../lib/stores";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
-import TimeClock from "../components/TimeClock/TimeClock";
+import TimeClock, { IPunch } from "../components/TimeClock/TimeClock";
 
 export interface IUserToken {
     employeeId: number;
@@ -13,7 +13,7 @@ export interface IUserToken {
 export interface IUser extends IUserToken {
     firstName: string;
     lastName: string;
-    punches: [];
+    punches: IPunch[];
 }
 
 export default function () {

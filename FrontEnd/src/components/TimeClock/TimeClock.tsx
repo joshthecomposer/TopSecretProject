@@ -3,11 +3,11 @@ import { IUser } from "../../pages/Dashboard";
 import axios from "axios";
 
 export interface IPunch {
-    timePunchId: number;
-    employeeId: number;
-    punchType: boolean;
-    punchTime: Date;
     employee: IUser;
+    employeeId: number;
+    punchTime: string;
+    punchType: boolean;
+    timePunchId: number;
 }
 
 export default function TimeClock({
@@ -16,6 +16,7 @@ export default function TimeClock({
     userInfo: IUser | undefined | null;
 }) {
     const [checked, setChecked] = useState(false);
+    const [userPunches, setUserPunches] = useState<IPunch[]>();
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -25,9 +26,20 @@ export default function TimeClock({
                 punchType: checked,
                 employeeId: userInfo?.employeeId,
             })
-            .then((response) => console.log(response))
+            .then((response) => console.log(response.data))
             .catch((error) => console.log(error));
     }
+
+    useEffect(() => {
+        if (!userInfo) return;
+
+        axios
+            .get(
+                `http://localhost:5014/api/timeclock/punch/${userInfo.employeeId}/all`
+            )
+            .then((response) => setUserPunches(response.data))
+            .catch((error) => console.log(error));
+    }, [userInfo]);
 
     return (
         <section className="bg-[#26263a] p-4 flex flex-col gap-4">
@@ -38,8 +50,8 @@ export default function TimeClock({
                 </div>
                 <div className="bg-[#2f2f47] p-4 flex-[3]">
                     <table className="w-full text-left">
-                        <thead className="flex gap-4 mb-2">
-                            <tr>
+                        <thead>
+                            <tr className="flex gap-4 mb-2">
                                 <th className="flex-1">Date</th>
                                 <th className="flex-1">In</th>
                                 <th className="flex-1">Out</th>
@@ -47,11 +59,16 @@ export default function TimeClock({
                             </tr>
                         </thead>
                         <tbody className="flex flex-col gap-4 mb-4">
-                            {/* {userInfo?.punches.map((punch: IPunch, idx) => {
+                            {userPunches?.map((punch: IPunch) => {
+                                const date = new Date(punch.punchTime);
+
                                 return (
-                                    <tr className="flex gap-4">
+                                    <tr
+                                        key={punch.timePunchId}
+                                        className="flex gap-4"
+                                    >
                                         <td className="p-2 bg-[#26263a] flex-1">
-                                            3/8/2023
+                                            {date.toLocaleDateString()}
                                         </td>
                                         <td className="p-2 bg-[#26263a] flex-1">
                                             time
@@ -64,7 +81,7 @@ export default function TimeClock({
                                         </td>
                                     </tr>
                                 );
-                            })} */}
+                            })}
                         </tbody>
                     </table>
                     <form className="flex gap-4" onSubmit={handleSubmit}>
