@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Models;
 
@@ -10,9 +11,10 @@ using Server.Models;
 namespace TopSecretProject.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230308202307_SixthMigration")]
+    partial class SixthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,10 +33,10 @@ namespace TopSecretProject.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("PunchIn")
+                    b.Property<DateTime>("PunchIn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("PunchOut")
+                    b.Property<DateTime>("PunchOut")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("UpdatedAt")
