@@ -12,7 +12,7 @@ export default function Navbar() {
         <div
             onMouseEnter={() => setExpandNav(true)}
             onMouseLeave={() => setExpandNav(false)}
-            className="h-[100svh] p-4 flex flex-col justify-center items-center bg-[#2a2a40] w-fit fixed"
+            className="h-[100svh] p-4 flex flex-col justify-center items-center bg-[#2a2a40] w-fit fixed shadow-lg"
         >
             <a
                 href="#"
