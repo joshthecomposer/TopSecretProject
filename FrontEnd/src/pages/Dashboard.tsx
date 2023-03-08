@@ -43,7 +43,7 @@ export default function () {
             <main className="p-4 w-[1440px] mx-auto text-[#ADADF6] flex flex-col gap-4">
                 <header className="bg-[#26263a] p-4 flex justify-between">
                     <h1 className="text-2xl">
-                        Welcome back,{" "}
+                        Welcome back
                         <span className="block text-6xl">
                             {userInfo?.firstName} {userInfo?.lastName}
                         </span>
