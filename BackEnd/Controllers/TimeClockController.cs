@@ -3,6 +3,7 @@ using Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Collections.Specialized;
 
 namespace Server.Controllers;
 
@@ -58,9 +59,20 @@ public class TimeClockController : ControllerBase
     }
 
     [HttpGet(template:"punch/{id}/all")]
-    public async Task<ActionResult<List<TimePunch>>> GetOnePunches(int id)
+    public async Task<ActionResult<List<TimePunch>>> GetOnePunches(int id, [FromQuery(Name="limit")] string input = null!)
     {
-        var user = await _context.Users.Include(u => u.Punches).FirstOrDefaultAsync(u => u.EmployeeId == id);
+        var user = new User();
+        if (input != null)
+        {
+            DateTime one = DateTime.Now;
+            int i = Int32.Parse(input);
+            DateTime two = one.AddDays(-i);
+            user = await _context.Users.Include(u => u.Punches).Where(p=>p.CreatedAt >= two).FirstOrDefaultAsync(u => u.EmployeeId == id);
+        }
+        else
+        {
+            user = await _context.Users.Include(u => u.Punches).FirstOrDefaultAsync(u => u.EmployeeId == id);
+        }
         List<TimePunch> punches = user!.Punches;
         foreach(TimePunch p in punches)
         {
