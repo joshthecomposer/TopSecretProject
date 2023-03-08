@@ -82,4 +82,21 @@ public class TimeClockController : ControllerBase
         }
         return users;
     }
+
+    [HttpPut("punch/{id}")]
+    public async Task<ActionResult<TimePunch>> UpdatePunch([FromBody] TimePunch newPunch, int id)
+    {
+        TimePunch? OldPunch = await _context.TimePunches.FirstOrDefaultAsync(p => p.TimePunchId == id);
+
+        if (ModelState.IsValid)
+        {
+            OldPunch!.EmployeeId = newPunch.EmployeeId;
+            OldPunch.PunchIn = newPunch.PunchIn;
+            OldPunch.PunchOut = newPunch.PunchOut;
+            OldPunch.CreatedAt = newPunch.CreatedAt;
+            OldPunch.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+        }
+        return newPunch;
+    }
 }
