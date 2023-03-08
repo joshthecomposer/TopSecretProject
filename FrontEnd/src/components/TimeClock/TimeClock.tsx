@@ -1,5 +1,6 @@
 import { FormEvent, useState, useEffect } from "react";
 import { IUser } from "../../pages/Dashboard";
+import { BsCalendar2CheckFill, BsCalendarXFill } from "react-icons/bs";
 import axios from "axios";
 
 export interface IPunch {
@@ -46,9 +47,20 @@ export default function TimeClock({
             axios
                 .put(
                     `http://localhost:5014/api/timeclock/punch/${latest.timePunchId}`,
-                    { punchOut: new Date() }
+                    {
+                        employeeId: latest.employeeId,
+                        punchIn: latest.punchIn,
+                        punchOut: new Date(),
+                    }
                 )
-                .then((response) => console.log(response))
+                .then((response) =>
+                    setUserPunches([
+                        ...userPunches.filter(
+                            (punch) => punch.timePunchId !== latest.timePunchId
+                        ),
+                        response.data,
+                    ])
+                )
                 .catch((error) => console.error(error));
             return;
         }
@@ -78,8 +90,9 @@ export default function TimeClock({
         <section className="bg-[#26263a] p-4 flex flex-col gap-4">
             <h2 className="text-xl">Time Clock</h2>
             <div className="flex gap-4">
-                <div className="bg-[#2f2f47] p-4 flex-1">
+                <div className="bg-[#2f2f47] p-4 flex-1 flex flex-col items-center gap-4 justify-center">
                     <p>You are scheduled to work today.</p>
+                    <BsCalendar2CheckFill size={64} />
                 </div>
                 <div className="bg-[#2f2f47] p-4 flex-[3]">
                     <table className="w-full text-left">
