@@ -15,19 +15,20 @@ export default function TimeClock({
 }: {
     userInfo: IUser | undefined | null;
 }) {
-    const [checked, setChecked] = useState(false);
     const [userPunches, setUserPunches] = useState<IPunch[]>();
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+        if (!userPunches) return;
 
-        axios
-            .post("http://localhost:5014/api/timeclock/punch", {
-                punchType: checked,
-                employeeId: userInfo?.employeeId,
-            })
-            .then((response) => console.log(response.data))
-            .catch((error) => console.log(error));
+        event.preventDefault();
+        // TODO: check the latest punch to see if it already has an out punch. If it does, create a new punch, else, update the most recent punch's out value.
+        if (userPunches.length === 0) {
+            // TODO: Create a new punch and return.
+        }
+
+        // if latest punch is only an in: update it and return.
+
+        // lastly, if latest punch has an in and out, create a new punch and return.
     }
 
     useEffect(() => {
@@ -85,15 +86,6 @@ export default function TimeClock({
                         </tbody>
                     </table>
                     <form className="flex gap-4" onSubmit={handleSubmit}>
-                        <div className="flex flex-col gap-2 items-center justify-center">
-                            <label htmlFor="type">In?</label>
-                            <input
-                                type="checkbox"
-                                id="type"
-                                checked={checked}
-                                onChange={(e) => setChecked(!checked)}
-                            />
-                        </div>
                         <button className="bg-[#ADADF6] text-[#26263a] p-2 border-[#ADADF6] border-2 hover:bg-[#26263a] hover:text-[#ADADF6] transition-colors">
                             Add Punch
                         </button>
