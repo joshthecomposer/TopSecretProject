@@ -52,7 +52,7 @@ public class TimeClockController : ControllerBase
     [HttpGet(template:"punch/{id}/latest")]
     public async Task<ActionResult<TimePunch>> GetLatest(int id)
     {
-        var punch = await _context.TimePunches.Where(p=>p.EmployeeId == id).OrderBy(t=>t.CreatedAt).LastAsync();
+        var punch = await _context.TimePunches.Where(p=>p.EmployeeId == id).OrderBy(t=>t.CreatedAt).LastOrDefaultAsync();
         Console.WriteLine(punch);
         return punch!;
     }
