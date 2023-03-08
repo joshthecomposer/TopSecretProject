@@ -48,7 +48,11 @@ export default function () {
                             {userInfo?.firstName} {userInfo?.lastName}
                         </span>
                     </h1>
-                    <p className="text-3xl">{currentDate.toDateString()}</p>
+                    <p className="text-3xl">
+                        {currentDate.toLocaleDateString("en-US", {
+                            dateStyle: "long",
+                        })}
+                    </p>
                 </header>
                 <TimeClock userInfo={userInfo} />
             </main>
