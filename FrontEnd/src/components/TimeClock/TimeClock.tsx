@@ -121,17 +121,30 @@ export default function TimeClock({
                                                 punch.punchIn
                                             ).toLocaleTimeString()}
                                         </td>
-                                        <td className="p-2 bg-[#26263a] text-red-400 flex-1">
-                                            {punch.punchOut ? "" : "Missing"}
+                                        <td
+                                            className={`p-2 bg-[#26263a] flex-1 ${
+                                                punch.punchOut
+                                                    ? ""
+                                                    : " text-red-400"
+                                            }`}
+                                        >
+                                            {punch.punchOut
+                                                ? new Date(
+                                                      punch.punchOut
+                                                  ).toLocaleTimeString()
+                                                : "Missing"}
                                         </td>
                                         <td className="p-2 bg-[#26263a] flex-1">
                                             {punch.punchIn && punch.punchOut
-                                                ? new Date(
-                                                      punch.punchIn
-                                                  ).valueOf() -
-                                                  new Date(
-                                                      punch.punchOut
-                                                  ).valueOf()
+                                                ? (
+                                                      (new Date(
+                                                          punch.punchOut
+                                                      ).valueOf() -
+                                                          new Date(
+                                                              punch.punchIn
+                                                          ).valueOf()) /
+                                                      3600000
+                                                  ).toFixed(3)
                                                 : ""}
                                         </td>
                                     </tr>
