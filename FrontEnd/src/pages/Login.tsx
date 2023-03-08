@@ -22,7 +22,6 @@ export default function () {
                 password,
             })
             .then((response) => {
-                console.log(response);
                 const { employeeId, email, isAdmin } = response.data;
 
                 cookies.cookies.set(

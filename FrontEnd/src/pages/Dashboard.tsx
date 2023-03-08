@@ -27,7 +27,6 @@ export default function () {
         fetch("http://localhost:5014/api/" + userToken?.employeeId)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 setUserInfo(responseData);
             })
             .catch((error) => console.error(error));
