@@ -20,6 +20,9 @@ export default function TimeClock({
 }) {
     const [userPunches, setUserPunches] = useState<IPunch[]>();
 
+    // TODO: implement scheduling functionality.
+    const isWorking = true; // PLACEHOLDER
+
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         if (!userPunches) return;
         if (!userInfo) return;
@@ -90,9 +93,19 @@ export default function TimeClock({
         <section className="bg-[#26263a] p-4 flex flex-col gap-4">
             <h2 className="text-xl">Time Clock</h2>
             <div className="flex gap-4">
-                <div className="bg-[#2f2f47] p-4 flex-1 flex flex-col items-center gap-4 justify-center">
-                    <p>You are scheduled to work today.</p>
-                    <BsCalendar2CheckFill size={64} />
+                <div
+                    className="bg-[#2f2f47] p-4 flex-1 flex flex-col items-center gap-4 justify-center"
+                    style={{ color: isWorking ? "#79df8a" : "red" }}
+                >
+                    <p>
+                        You are {isWorking ? "" : "not"} scheduled to work
+                        today.
+                    </p>
+                    {isWorking ? (
+                        <BsCalendar2CheckFill size={64} />
+                    ) : (
+                        <BsCalendarXFill size={64} />
+                    )}
                 </div>
                 <div className="bg-[#2f2f47] p-4 flex-[3]">
                     <table className="w-full text-left">
