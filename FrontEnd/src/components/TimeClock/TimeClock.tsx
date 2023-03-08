@@ -31,7 +31,9 @@ export default function TimeClock({
                     employeeId: userInfo.employeeId,
                     punchIn: new Date(),
                 })
-                .then((response) => console.log(response))
+                .then((response) =>
+                    setUserPunches([...userPunches, response.data])
+                )
                 .catch((error) => console.error(error));
             return;
         }
@@ -56,7 +58,7 @@ export default function TimeClock({
                 employeeId: userInfo.employeeId,
                 punchIn: new Date(),
             })
-            .then((response) => console.log(response))
+            .then((response) => setUserPunches([...userPunches, response.data]))
             .catch((error) => console.error(error));
         return;
     }
@@ -97,16 +99,27 @@ export default function TimeClock({
                                         className="flex gap-4"
                                     >
                                         <td className="p-2 bg-[#26263a] flex-1">
-                                            date
+                                            {new Date(
+                                                punch.createdAt
+                                            ).toLocaleDateString()}
                                         </td>
                                         <td className="p-2 bg-[#26263a] flex-1">
-                                            time
+                                            {new Date(
+                                                punch.punchIn
+                                            ).toLocaleTimeString()}
+                                        </td>
+                                        <td className="p-2 bg-[#26263a] text-red-400 flex-1">
+                                            {punch.punchOut ? "" : "Missing"}
                                         </td>
                                         <td className="p-2 bg-[#26263a] flex-1">
-                                            time
-                                        </td>
-                                        <td className="p-2 bg-[#26263a] flex-1">
-                                            time
+                                            {punch.punchIn && punch.punchOut
+                                                ? new Date(
+                                                      punch.punchIn
+                                                  ).valueOf() -
+                                                  new Date(
+                                                      punch.punchOut
+                                                  ).valueOf()
+                                                : ""}
                                         </td>
                                     </tr>
                                 );
