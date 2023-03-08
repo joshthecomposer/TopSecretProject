@@ -11,9 +11,11 @@ public class TimePunch
     //foreign key
     [Required]
     public int EmployeeId { get; set; }
-    [Required]
-    public bool PunchType { get; set; } //True is punching and False is punching out
-    public DateTime PunchTime { get; set; } = DateTime.Now;
+    public DateTime? PunchIn { get; set; }
+    public DateTime? PunchOut { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public User? Employee { get; set; }
 }
