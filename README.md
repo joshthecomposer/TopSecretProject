@@ -1,27 +1,7 @@
-Make all pushes ready to be tested with rest of app to dev-offical
+### Make all pushes ready to be tested with rest of app to dev-official
 
-## To test server and get API documentation, open localhost:[server port]
-
-
-## To pull in database updates
-dotnet-ef database update
+### To test server and get API documentation, open localhost:[server port]
 
 
-## Routes
-
-Login: `/api/employee/login`  
-* Expects Email and Password  
-
-Register: `/api/employee/create`  
-
-Punch In/Out: `/api/timeclock/punch`
-* Expects EmployeeId and bool PunchType (True = punch in, False = punch out)  
-
-Get One Employee's Latest Punch: `/api/timeclock/punch/{id}/latest`  
-* Expects one EmployeeId as a URL Parameter.
-
-Get One Employee's List of Punches: `/api/timeclock/punch/{id}/all`  
-* Expects one EmployeeId as a URL Parameter.
-
-Get All Employees with their Punches: `/api/timeclock/punch/all`  
-* Accessible by an Admin/HR User.
+### To pull in database updates
+`dotnet ef database update`

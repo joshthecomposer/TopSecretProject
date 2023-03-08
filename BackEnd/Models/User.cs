@@ -25,6 +25,9 @@ public class User
     [NotMapped]
     public string ConfirmPassword { get; set; }
 
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
     public List<TimePunch> Punches { get; set; } = new List<TimePunch>();
 }
 
