@@ -17,7 +17,7 @@ public class Schedule
 
     // Special cases that can be changed on edit or a special add form where if true *2 for pay or can't clock in / auto clock in but all set to a default of false
     public bool Holiday {get; set;} = false;
-    public bool Pto {get; set;} = false;
+    public string Pto {get; set;} = "Not Applicable";
     public bool Sick {get; set;} = false;
     public bool OverTime {get; set;} = false;
 
