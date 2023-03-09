@@ -30,7 +30,8 @@ export default function Navbar() {
                     className="absolute right-3 font-bold transition-opacity"
                     style={{
                         opacity: expandNav ? 100 : 0,
-                        transitionDuration: expandNav ? "500ms" : "400ms",
+                        transitionDuration: expandNav ? "500ms" : "100ms",
+                        transitionDelay: expandNav ? "300ms" : "0ms",
                     }}
                 >
                     Home
@@ -49,7 +50,8 @@ export default function Navbar() {
                     className="absolute right-3 font-bold transition-opacity"
                     style={{
                         opacity: expandNav ? 100 : 0,
-                        transitionDuration: expandNav ? "500ms" : "400ms",
+                        transitionDuration: expandNav ? "500ms" : "100ms",
+                        transitionDelay: expandNav ? "300ms" : "0ms",
                     }}
                 >
                     Schedule
@@ -67,7 +69,8 @@ export default function Navbar() {
                     className="absolute right-3 font-bold transition-opacity"
                     style={{
                         opacity: expandNav ? 100 : 0,
-                        transitionDuration: expandNav ? "500ms" : "400ms",
+                        transitionDuration: expandNav ? "500ms" : "100ms",
+                        transitionDelay: expandNav ? "300ms" : "0ms",
                     }}
                 >
                     Settings
@@ -89,7 +92,8 @@ export default function Navbar() {
                     className="absolute right-3 font-bold transition-opacity"
                     style={{
                         opacity: expandNav ? 100 : 0,
-                        transitionDuration: expandNav ? "500ms" : "400ms",
+                        transitionDuration: expandNav ? "500ms" : "100ms",
+                        transitionDelay: expandNav ? "300ms" : "0ms",
                     }}
                 >
                     Logout
