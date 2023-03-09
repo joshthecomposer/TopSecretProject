@@ -29,6 +29,7 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public List<TimePunch> Punches { get; set; } = new List<TimePunch>();
+    public List<Schedule> Days { get; set; } = new List<Schedule>();
 }
 
 public class NotEmailExistsAttribute : ValidationAttribute
