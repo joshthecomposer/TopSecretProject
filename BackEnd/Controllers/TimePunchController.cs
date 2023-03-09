@@ -9,10 +9,10 @@ namespace Server.Controllers;
 
 [Route("api/timeclock")]
 [ApiController]
-public class TimeClockController : ControllerBase
+public class TimePunchController : ControllerBase
 {
     private DBContext _context;
-    public TimeClockController(DBContext context)
+    public TimePunchController(DBContext context)
     {
         _context = context;
     }
@@ -35,8 +35,15 @@ public class TimeClockController : ControllerBase
     [HttpPost(template:"punch")]
     public async Task<ActionResult<User>> Punch([FromBody]TimePunch punch)
     {
+
+
+
         if (ModelState.IsValid)
         {
+            DateTime punchIn = (DateTime) punch.PunchIn!;
+            punchIn = punchIn.ToLocalTime();
+            punch.PunchIn = punchIn;
+
             _context.Add(punch);
             await _context.SaveChangesAsync();
             return CreatedAtAction(
@@ -58,27 +65,49 @@ public class TimeClockController : ControllerBase
         return punch!;
     }
 
-    [HttpGet(template:"punch/{id}/all")]
-    public async Task<ActionResult<List<TimePunch>>> GetOnePunches(int id, [FromQuery(Name="limit")] string input = null!)
+    [HttpGet(template:"punch/{employeeId}/all")]
+    public async Task<ActionResult<List<TimePunch>>> GetOnePunches(int employeeId, [FromQuery(Name="limit")] string queryParam = null!)
     {
-        var user = new User();
-        if (input != null)
+        List<TimePunch> punches = new List<TimePunch>();
+        if (queryParam == null)
         {
-            DateTime one = DateTime.Now;
-            int i = Int32.Parse(input);
-            DateTime two = one.AddDays(-i);
-            user = await _context.Users.Include(u => u.Punches).Where(p=>p.CreatedAt >= two).FirstOrDefaultAsync(u => u.EmployeeId == id);
+            var user = 
+            await _context.Users
+            .Include(u => u.Punches)
+            .Select(u=> 
+            new {
+                EmployeeId = u.EmployeeId,
+                Punches = u.Punches
+                })
+            .FirstOrDefaultAsync(u => u.EmployeeId == employeeId);
+            return punches = user!.Punches;
+        }
+        else if (Int32.Parse(queryParam) < 1)
+        {
+            var user = 
+            await _context.Users
+            .Include(u => u.Punches)
+            .Select(u=> new {
+                EmployeeId = u.EmployeeId,
+                Punches = u.Punches
+                })
+            .FirstOrDefaultAsync(u => u.EmployeeId == employeeId);
+            return punches = user!.Punches;
         }
         else
         {
-            user = await _context.Users.Include(u => u.Punches).FirstOrDefaultAsync(u => u.EmployeeId == id);
+            DateTime date = DateTime.Now.AddDays(-(Int32.Parse(queryParam)));
+            var user = 
+            await _context.Users
+            .Include(u => u.Punches)
+            .Where(p => p.CreatedAt >= date)
+            .Select(u=> new {
+                EmployeeId = u.EmployeeId,
+                Punches = u.Punches
+                })
+            .FirstOrDefaultAsync(u => u.EmployeeId == employeeId);
+            return punches = user!.Punches;
         }
-        List<TimePunch> punches = user!.Punches;
-        foreach(TimePunch p in punches)
-        {
-            p.Employee = null;
-        }
-        return punches;
     }
 
     [HttpGet(template:"punch/all")]
@@ -99,9 +128,13 @@ public class TimeClockController : ControllerBase
     public async Task<ActionResult<TimePunch>> UpdatePunch([FromBody] TimePunch newPunch, int id)
     {
         TimePunch? OldPunch = await _context.TimePunches.FirstOrDefaultAsync(p => p.TimePunchId == id);
-
+        
         if (ModelState.IsValid)
         {
+            DateTime punchOut = (DateTime) newPunch.PunchOut!;
+            punchOut = punchOut.ToLocalTime();
+            newPunch.PunchOut = punchOut;
+
             OldPunch!.EmployeeId = newPunch.EmployeeId;
             OldPunch.PunchIn = newPunch.PunchIn;
             OldPunch.PunchOut = newPunch.PunchOut;
