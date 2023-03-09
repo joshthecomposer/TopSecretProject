@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models;
 
-public class TimePunch
+public class Schedule
 {
     [Key]
-    public int TimePunchId { get; set; }
+    public int ScheduleId { get; set; }
     //foreign key
     [Required]
     public int EmployeeId { get; set; }
